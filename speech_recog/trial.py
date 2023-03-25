@@ -8,11 +8,12 @@ import argparse
 import wave
 import json
 import noisereduce as nr
-from helper import RobotInteraction
+
+
+
 from scipy.io import wavfile
-from vosk import Model, KaldiRecognizer, SpkModel
-import whisper
-import os
+# from vosk import Model, KaldiRecognizer, SpkModel
+
 
 
 import bosdyn.client
@@ -27,6 +28,12 @@ import os
 from bosdyn.client.robot_command import RobotCommandBuilder, RobotCommandClient, blocking_stand
 from bosdyn.client.docking import blocking_dock_robot, blocking_undock
 
+
+from helper import RobotInteraction
+import whisper
+from voice import *
+from utils import *
+import os
 
 # spot ip = 10.0.88.176
 noise_rate, noise_data = wavfile.read("spot_noise_ch0_recording.wav") # Noise from SPOT when its Idle (present in ~/home/vosk-api/python/example/mine)
@@ -77,6 +84,8 @@ def get_frames(data):
 
 
 def main(argv):
+    voice_clip_path = "/home/sougato97/Human_Robot_Interaction/nao_dev/recordings/"
+    
     global frames_ch0,frames_ch1,frames_ch2,frames_ch3,frames_ch4,frames_ch5
 
     parser = argparse.ArgumentParser()
@@ -85,7 +94,9 @@ def main(argv):
     bosdyn.client.util.setup_logging(options.verbose)  
     sdk = bosdyn.client.create_standard_sdk('VoiceClient') 
     robo = RobotInteraction(sdk,options) # from helper.py
-    
+    model = whisper.load_model("medium.en") ## exception handling
+    print("Whisper model import success")
+
     robo.robot.time_sync.wait_for_sync()
     assert not robo.robot.is_estopped(), "Robot is estopped. Please use an external E-Stop client, " \
                                     "such as the estop SDK example, to configure E-Stop."

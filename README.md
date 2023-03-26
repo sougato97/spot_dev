@@ -15,9 +15,6 @@ Authors:
 ## Installation
 To install this project, follow these steps:
 - Install Miniconda (https://docs.conda.io/en/latest/miniconda.html)
-- Go to https://www.aldebaran.com/en/support/nao-6/downloads-softwares
-- In your home dir create a folder "naoqi" and then download the python SDK there and extract.
-  - add "export PYTHONPATH=~/naoqi/pynaoqi-python2.7-2.8.6.23-linux64-20191127_152327/lib/python2.7/site-packages:$PYTHONPATH" to your .bashrc
   
 Create Conda env
 ```bash
@@ -48,18 +45,35 @@ pip install --upgrade --no-deps --force-reinstall git+https://github.com/openai/
 sudo apt update && sudo apt install ffmpeg
 
 ```
-This code needs API keys from OPENAI(for chatGPT) and huggingface.co(for pyannote)
-- I have added these keys to the .bashrc file 
-- OpenAI link - https://platform.openai.com/account/api-keys
+Install BostonDynamics API
 ```bash
-export OPENAI_API_KEY="you-key-please"
+python3 -m pip install --upgrade bosdyn-client bosdyn-mission bosdyn-choreography-client
+python3 -m pip install bosdyn-client==3.2.2.post1 bosdyn-mission==3.2.2.post1 bosdyn-choreography-client==3.2.2.post1
 ```
+Verify your Spot packages installation
+```bash
+python3 -m pip list --format=columns | grep bosdyn
+```
+If you face any issues, please refer to: 
+https://dev.bostondynamics.com/docs/python/quickstart
+
+This code needs API keys from huggingface.co(for pyannote)
+- I have added these keys to the .bashrc file 
 - HuggingFace link - https://huggingface.co/settings/tokens
 - Also you have to agree to some T&C. Preferably run it 1st time on jupyter, you will get the link there itself.
 ```bash
 export PYANNOTE_API_KEY="you-key-please"
 ```
 
+In the terminal 
+- window 1 
+```bash
+python ./spot_dev/spot-sdk/python/examples/estop/estop_nogui.py ip_of_the_robot
+```
+- window 2
+```bash
+python ./spot_dev/speech_recog/main.py ip_of_the_robot
+```
 
 You may need to create an ssh setup for GitHub
 - Follow the comands below, you may discard the prompts 

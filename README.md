@@ -1,6 +1,8 @@
 # HRI (NAO environment)
 The source-code is related to BostonDynamics Spot
-Authors:- Sougato Bagchi sougato97@gmail.com/sougatob@buffalo.edu
+Authors: 
+- Sougato Bagchi - sougato97@gmail.com/sougatob@buffalo.edu
+- Geethartho Chanda - geetarth@buffalo.edu
 
 ## My setup 
 - I am using windows 11 (WSL - Ubuntu 18)

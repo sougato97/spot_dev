@@ -80,8 +80,8 @@ class RobotInteraction():
         self.command_dict[self.dock] = ['go back to your station','go back to station','go back to dock','go to your dock','dock']
         
         
-        with open('data/users.json') as json_file:
-           self.recognizd_users = json.load(json_file)
+        # with open('data/users.json') as json_file:
+        #    self.recognizd_users = json.load(json_file)
         
         bosdyn.client.util.authenticate(self.robot)     
 

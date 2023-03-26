@@ -61,7 +61,7 @@ def main(argv):
             record_audio(voice_clip_path, "recording.mp3")
             text = transcribe(voice_clip_path + "recording.mp3",model)
             recognized = user_auth(voice_clip_path, "recording.mp3", pyannote_key)
-            recognized = 1
+            # recognized = 1
             if recognized:
                 if not robo.awake:
                     robo.wakeup_switch(text)

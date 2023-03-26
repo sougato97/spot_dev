@@ -7,7 +7,6 @@ import argparse
 import wave
 import json
 
-
 import bosdyn.client
 import bosdyn.client.lease
 import bosdyn.client.util
@@ -21,18 +20,11 @@ from bosdyn.client.docking import blocking_dock_robot, blocking_undock
 
 from helper import RobotInteraction
 import whisper
-from voice import *
+from voice_auth import *
 from utils import *
 import os
 
 # spot ip = 10.0.88.176
-
-########################################################### Parsing ##############################################################
-
-    
-############################################################ Parsing End ##########################################################
-
-
 
 def main(argv):
     voice_clip_path = "/home/sougato97/Human_Robot_Interaction/spot_dev/recordings/"
@@ -43,8 +35,9 @@ def main(argv):
     options = parser.parse_args(argv)
     bosdyn.client.util.setup_logging(options.verbose)  
     sdk = bosdyn.client.create_standard_sdk('VoiceClient') 
+    # print("check 1")
     robo = RobotInteraction(sdk,options) # from helper.py
-    
+    # print("check 2")
     model = whisper.load_model("medium.en") ## exception handling
     print("Whisper model import success")
 
@@ -53,39 +46,44 @@ def main(argv):
                                     "such as the estop SDK example, to configure E-Stop."
     lease_client = robo.robot.ensure_client(bosdyn.client.lease.LeaseClient.default_service_name)
     # for acquiring the spot connection 
-    count_false = 0
     with bosdyn.client.lease.LeaseKeepAlive(lease_client, must_acquire=True, return_at_exit=True):
-        # try:
+
+        # will have to change the logic later, but for now, I will change the wake_up to always 1 
+        robo.awake = 1
         while (1):
-            print("You may start with the recording")
-            record_audio(voice_clip_path, "recording.mp3")
-            text = transcribe(voice_clip_path + "recording.mp3",model)
-            recognized = user_auth(voice_clip_path, "recording.mp3", pyannote_key)
-            # recognized = 1
-            if recognized:
-                if not robo.awake:
-                    robo.wakeup_switch(text)
-                elif robo.awake:
+            flag = input("Please give the input according to the provided options : \nUser Registration - 1 \nAuthorized mode - 2 \nBypass Auth & use as guest - 3\nExit -4")
+            # Reg mode
+            if (flag == '1'):
+                register_user(pyannote_key,voice_clip_path,model)
+                continue    
+            # Auth Mode
+            elif (flag == '2'):
+                while(1):
+                    flag = input("You may start with the recording. But press 1 to stop the conversation, any other key for continuation.")
+                    if (flag == '1'):
+                        break
+                    record_audio(voice_clip_path, "recording.mp3")
+                    text = transcribe(voice_clip_path + "recording.mp3",model)
+                    recognized = user_auth(voice_clip_path, "recording.mp3", pyannote_key)
+                    # recognized = 1
+                    if recognized:
+                        robo.execute_command(text)
+                    else:
+                        print("You are not an authorized user")
+            elif (flag == '3'):
+                while(1):
+                    flag = input("You may start with the recording. But press 1 to stop the conversation, any other key for continuation.")
+                    if (flag == '1'):
+                        break
+                    print("You may start with the recording")
+                    record_audio(voice_clip_path, "recording.mp3")
+                    text = transcribe(voice_clip_path + "recording.mp3",model)
                     robo.execute_command(text)
-                else:
-                    print("Oops! Didn't catch that")
-                count_false += 1
-            elif count_false == 15:
-                print("Yubee is going back to sleep")
-                robo.awake = 0
+            elif (flag == '4'):
+                return
             else:
-                print("I don't recognize you")
-                count_false += 1
+                continue
         
-        # except KeyboardInterrupt:
-        #     print("\nDone")
-        #     stream.stop_stream()
-        #     stream.close()
-        #     # p.terminate()
-        #     #write_to_file()
-        #     parser.exit(0)
-        # except Exception as e:
-        #     parser.exit(type(e).__name__ + ": " + str(e))
 
 
 

@@ -54,6 +54,14 @@ Verify your Spot packages installation
 ```bash
 python3 -m pip list --format=columns | grep bosdyn
 ```
+Your output for the prev command should be:
+bosdyn-api                    3.2.2.post1
+bosdyn-choreography-client    3.2.2.post1
+bosdyn-choreography-protos    3.2.2.post1
+bosdyn-client                 3.2.2.post1
+bosdyn-core                   3.2.2.post1
+bosdyn-mission                3.2.2.post1
+
 If you face any issues, please refer to: 
 https://dev.bostondynamics.com/docs/python/quickstart
 

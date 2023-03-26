@@ -1,4 +1,4 @@
-# HRI (NAO environment)
+# HRI (Spot environment)
 The source-code is related to BostonDynamics Spot
 Authors: 
 - Sougato Bagchi - sougato97@gmail.com/sougatob@buffalo.edu

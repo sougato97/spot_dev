@@ -1,5 +1,7 @@
 # HRI (Spot environment)
-The source-code is related to BostonDynamics Spot
+The source-code is related to BostonDynamics Spot. Voice controls implemented for Spot with user authentication.
+
+
 Authors: 
 - Sougato Bagchi - sougato97@gmail.com/sougatob@buffalo.edu
 - Geethartho Chanda - geetarth@buffalo.edu

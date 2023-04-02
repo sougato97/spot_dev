@@ -52,8 +52,8 @@ class RobotInteraction():
         self.command_dict[self.power_off] = ['power yourself down', 'power down yourself','power off','power down','turn your power off', 'turn off power','turn yourself off', 'turn off']
         self.command_dict[self.undock] = ['can you undock','get up from your station','get up','undock','un dock']
         self.command_dict[self.lap] = ['move around a bit','move around the room','take a small lap','take a small nap','taken small lap', 'tour the lab']
-        self.command_dict[self.dock] = ['go back to your station','go back to station','go back to dock','go to your dock','dock']
-        
+        self.command_dict[self.dock] = ['go back to your station','go back to station']
+        # ,'go back to dock','go to your dock','dock'
         bosdyn.client.util.authenticate(self.robot)     
 
     def wakeup_switch(self,text):

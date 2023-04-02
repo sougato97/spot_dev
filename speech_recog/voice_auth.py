@@ -10,9 +10,8 @@ import torch
 import subprocess
 from utils import *
 
-def user_auth(voice_clip_path, name,pyannote_key):
+def user_auth(voice_clip_path, name, pyannote_model):
   
-  pyannote_model = Model.from_pretrained("pyannote/embedding", use_auth_token = pyannote_key)
   # Define device to be used (GPU or CPU)
   Device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
   inference = Inference(pyannote_model, window="whole", device = Device)

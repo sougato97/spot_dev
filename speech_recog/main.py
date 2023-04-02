@@ -20,6 +20,7 @@ from bosdyn.client.docking import blocking_dock_robot, blocking_undock
 
 from helper import RobotInteraction
 import whisper
+from pyannote.audio import Model
 from voice_auth import *
 from utils import *
 import os
@@ -39,6 +40,7 @@ def main(argv):
     robo = RobotInteraction(sdk,options) # from helper.py
     # print("check 2")
     model = whisper.load_model("medium.en") ## exception handling
+    pyannote_model = Model.from_pretrained("pyannote/embedding", use_auth_token = pyannote_key)
     print("Whisper model import success")
 
     robo.robot.time_sync.wait_for_sync()
@@ -64,7 +66,7 @@ def main(argv):
                         break
                     record_audio(voice_clip_path, "recording.mp3")
                     text = transcribe(voice_clip_path + "recording.mp3",model)
-                    recognized = user_auth(voice_clip_path, "recording.mp3", pyannote_key)
+                    recognized = user_auth(voice_clip_path, "recording.mp3", pyannote_model)
                     # recognized = 1
                     if recognized:
                         robo.execute_command(text)
@@ -80,7 +82,7 @@ def main(argv):
                     text = transcribe(voice_clip_path + "recording.mp3",model)
                     robo.execute_command(text)
             elif (flag == '4'):
-                return
+                return 
             else:
                 continue
         

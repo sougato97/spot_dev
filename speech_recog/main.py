@@ -27,14 +27,17 @@ import os
 
 # spot ip = 10.0.88.176
 
-def main(argv):
+def main():
     voice_clip_path = "/home/sougato97/Human_Robot_Interaction/spot_dev/recordings/"
     pyannote_key = os.environ["PYANNOTE_API_KEY"]
-
+    bosdn_ip = os.environ["BOSDN_IP"]
     parser = argparse.ArgumentParser()
     # print("The value of parser is:", parser)
-    bosdyn.client.util.add_base_arguments(parser) # getting spot parser data (i.e. ip), asks for userid & password  
-    options = parser.parse_args(argv)
+    bosdyn.client.util.add_base_arguments(parser) # getting spot parser data (i.e. ip), asks for userid & password 
+    # print("Type for argv",type(argv)," with the value:", argv) 
+    bosdn_ip = [bosdn_ip]
+    # print("Type for bosdn_ip",type(bosdn_ip)," with the value:", bosdn_ip) 
+    options = parser.parse_args(bosdn_ip)
     # print("The debug value is:", options)
     bosdyn.client.util.setup_logging(options.verbose)  
     sdk = bosdyn.client.create_standard_sdk('VoiceClient') 
@@ -94,8 +97,8 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    if not main(sys.argv[1:]):
-        sys.exit(1)
+    # if not main(sys.argv[1:]):
+    #     sys.exit(1)
     main()
 
 

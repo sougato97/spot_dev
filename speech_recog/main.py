@@ -32,8 +32,10 @@ def main(argv):
     pyannote_key = os.environ["PYANNOTE_API_KEY"]
 
     parser = argparse.ArgumentParser()
+    # print("The value of parser is:", parser)
     bosdyn.client.util.add_base_arguments(parser) # getting spot parser data (i.e. ip), asks for userid & password  
     options = parser.parse_args(argv)
+    # print("The debug value is:", options)
     bosdyn.client.util.setup_logging(options.verbose)  
     sdk = bosdyn.client.create_standard_sdk('VoiceClient') 
     # print("check 1")
@@ -72,6 +74,7 @@ def main(argv):
                         robo.execute_command(text)
                     else:
                         print("You are not an authorized user")
+            # Guest Mode
             elif (flag == '3'):
                 while(1):
                     flag = input("You may start with the recording. But press 1 to stop the conversation, any other key for continuation.")
@@ -81,6 +84,7 @@ def main(argv):
                     record_audio(voice_clip_path, "recording.mp3")
                     text = transcribe(voice_clip_path + "recording.mp3",model)
                     robo.execute_command(text)
+            # Return/exit
             elif (flag == '4'):
                 return 
             else:

@@ -35,7 +35,7 @@ def main():
     pyannote_model = Model.from_pretrained("pyannote/embedding", use_auth_token = pyannote_key)
     print("Whisper model import success")
 
-    bosdn_ip = os.environ["BOSDN_IP"]
+    bosdn_ip = os.environ["BOSDN_IP"] ## getting the spotip from the .bashrc
     parser = argparse.ArgumentParser()
     bosdyn.client.util.add_base_arguments(parser) # getting spot parser data (i.e. ip), asks for userid & password 
     bosdn_ip = [bosdn_ip]

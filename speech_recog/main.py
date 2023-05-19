@@ -27,23 +27,22 @@ import os
 
 # spot ip = 10.0.88.176
 
-def main(argv):
+def main():
     voice_clip_path = "/home/sougato97/Human_Robot_Interaction/spot_dev/recordings/"
     pyannote_key = os.environ["PYANNOTE_API_KEY"]
 
-    parser = argparse.ArgumentParser()
-    # print("The value of parser is:", parser)
-    bosdyn.client.util.add_base_arguments(parser) # getting spot parser data (i.e. ip), asks for userid & password  
-    options = parser.parse_args(argv)
-    # print("The debug value is:", options)
-    bosdyn.client.util.setup_logging(options.verbose)  
-    sdk = bosdyn.client.create_standard_sdk('VoiceClient') 
-    # print("check 1")
-    robo = RobotInteraction(sdk,options) # from helper.py
-    # print("check 2")
     model = whisper.load_model("medium.en") ## exception handling
     pyannote_model = Model.from_pretrained("pyannote/embedding", use_auth_token = pyannote_key)
     print("Whisper model import success")
+
+    bosdn_ip = os.environ["BOSDN_IP"] ## getting the spotip from the .bashrc
+    parser = argparse.ArgumentParser()
+    bosdyn.client.util.add_base_arguments(parser) # getting spot parser data (i.e. ip), asks for userid & password 
+    bosdn_ip = [bosdn_ip]
+    options = parser.parse_args(bosdn_ip)
+    bosdyn.client.util.setup_logging(options.verbose)  
+    sdk = bosdyn.client.create_standard_sdk('VoiceClient') 
+    robo = RobotInteraction(sdk,options) # from helper.py
 
     robo.robot.time_sync.wait_for_sync()
     assert not robo.robot.is_estopped(), "Robot is estopped. Please use an external E-Stop client, " \
@@ -71,7 +70,10 @@ def main(argv):
                     recognized = user_auth(voice_clip_path, "recording.mp3", pyannote_model)
                     # recognized = 1
                     if recognized:
-                        robo.execute_command(text)
+                        try:
+                            robo.execute_command(text)
+                        except:
+                            print("Incorrect choice")
                     else:
                         print("You are not an authorized user")
             # Guest Mode
@@ -83,7 +85,10 @@ def main(argv):
                     print("You may start with the recording")
                     record_audio(voice_clip_path, "recording.mp3")
                     text = transcribe(voice_clip_path + "recording.mp3",model)
-                    robo.execute_command(text)
+                    try:
+                        robo.execute_command(text)
+                    except:
+                        print("Incorrect choice")
             # Return/exit
             elif (flag == '4'):
                 return 
@@ -94,8 +99,8 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    if not main(sys.argv[1:]):
-        sys.exit(1)
+    # if not main(sys.argv[1:]):
+    #     sys.exit(1)
     main()
 
 

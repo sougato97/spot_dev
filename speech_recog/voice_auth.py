@@ -31,7 +31,7 @@ def user_auth(voice_clip_path, name, pyannote_model):
       # Compute the distance
       distance1 = cdist(unsqueezed_ref, unsqueezed_rec, metric="cosine")[0,0]
 
-      if (distance1 < 0.55):
+      if (distance1 < 0.60):
         flag = 1
   return flag
 

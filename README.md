@@ -2,9 +2,8 @@
 The source-code is related to BostonDynamics Spot. Voice controls implemented for Spot with user authentication. <br />
 
 ## Demo: Audio authentication for voice control on the Spot Robot
-
-<br />
-[![Click the picture for watching the video](https://github.com/sougato97/spot_dev/blob/v3/spot_imgs/spot_thumbnail.png)](https://youtu.be/P4jFGvzPtPE)
+Click the picture for watching the video.
+[!(https://github.com/sougato97/spot_dev/blob/v3/spot_imgs/spot_thumbnail.png)](https://youtu.be/P4jFGvzPtPE)
 
 <!-- Audio authentication for voice control on the Spot Robot:
 

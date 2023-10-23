@@ -1,6 +1,8 @@
 # HRI (Spot environment)
-The source-code is related to BostonDynamics Spot. Voice controls implemented for Spot with user authentication.
+The source code is related to BostonDynamics Spot. Voice controls implemented for Spot with user authentication.
 
+Check my video demonstration for the audio authentication for voice commands on our University's Spot robot
+https://youtu.be/P4jFGvzPtPE
 
 Authors: 
 - Sougato Bagchi - sougato97@gmail.com/sougatob@buffalo.edu
